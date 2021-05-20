@@ -3,9 +3,13 @@
 
 //Constantes
 #define TAILLE 10
+#define NBI 10
+
+
 
 int main()
 {
+
 
 
     int n_entier=10;
@@ -93,11 +97,83 @@ int main()
 
     }
 
+    //& et logique => &&
+    //| ou logique => ||
+    //^ ou exclusif
+    if((n_a==0) || (n_b==0)){
+        printf("true");
+    }else{
+        printf("false");
+    }
+
+
+
     int n_i=0;
     //Boucle pour
     for(n_i=0;n_i<10;n_i++){ //n_i++ == n_i=n_i+1
         printf("%d\n ",n_i);
+
     }
+
+    //for(;;)
+
+    //while() faire
+
+    n_i=0;
+    while(n_i!=10){
+        printf("%d\n ",n_i);
+
+        n_i++;
+    }
+
+
+    //do while()
+    n_i=0;
+    do{
+
+       printf("%d\n ",n_i);
+
+       n_i++;
+
+    }while(n_i!=8);
+
+    //while(1){
+
+
+
+    //}
+
+    //compléments
+    for(n_i=0;n_i<NBI;n_i++){
+
+        printf("debut du tour %d\n",n_i);
+        if(n_i==3)break;
+        printf("fin tour %d\n",n_i);
+
+    }
+
+    for(n_i=0;n_i<NBI;n_i++){
+
+        printf("debut du tour %d\n",n_i);
+        if(n_i<4)continue;
+        printf("fin tour %d\n",n_i);
+
+    }
+
+
+    for(n_i=0;n_i<NBI;n_i++){
+
+        printf("debut du tour %d\n",n_i);
+        if(n_i==4)goto sortie;
+        printf("fin tour %d\n",n_i);
+
+    }
+
+    sortie:printf("Après la boucle\n");
+
+
+
+
 
 
 
