@@ -2,64 +2,40 @@
 #include <stdlib.h>
 
 //Constantes
-#define TAILLE 10
+#define TAILLE 255
 #define NBI 10
 
 
 int main()
 {
 
-    //Tableau à 1 dim
-    int nTab_Int[TAILLE];
+   //Tableaux de caracteres
 
-    int n_i=0;
+     char cTab_char[TAILLE]="hello";
 
-    //Init tab_int
-    for(n_i=0;n_i<TAILLE;n_i++){
+     char cTab_char2[TAILLE]={'t','o','t','o'};
 
-        nTab_Int[n_i]=0;
+    cTab_char2[4]='e';
 
-    }
+    int n_cpt=0;
 
-    //Affiche tab_int
-    for(n_i=0;n_i<TAILLE;n_i++){
+    while(cTab_char2[n_cpt]!='\0'){
 
-        printf("%d\n",nTab_Int[n_i]);
+     n_cpt++;
 
     }
+    printf("%d",n_cpt);
 
 
-    int nTab_Int2[TAILLE]={0,1,0,1,0,0,0,0,0,0};
-    int nTab_Int3[TAILLE]={255};
-    int nTab_Int4[]={1,2,3,4,5};
+    printf("Entrez une chaine de carctere\n");
+    //scanf("%9s",cTab_char);
 
-    //Matrice, tableau deux dim
+    //gets(cTab_char);
+    fgets(cTab_char,TAILLE,stdin);
 
-    int nTab_matrice[TAILLE][TAILLE];
-    int n_j=0;
-    for(n_i=0;n_i<TAILLE;n_i++){//ligne
-            for(n_j=0;n_j<TAILLE;n_j++){//colonne
-
-                nTab_matrice[n_i][n_j]=0;
-            }
-
-    }
-
-    int nTab_matrice2[3][4]={{1,2,3,4},{5,6,7,8},{9,10,11,12}};
-
-    for(n_i=0;n_i<3;n_i++){//ligne
-            for(n_j=0;n_j<4;n_j++){//colonne
-
-                printf("%d\n",nTab_matrice2[n_i][n_j]);
-            }
-
-    }
-
-
-
-
-
-
+   // printf("%s",cTab_char);
+   //puts(cTab_char);
+    fputs(cTab_char,stdout);
 
 
     getchar();
