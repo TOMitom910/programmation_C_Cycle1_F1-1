@@ -2,142 +2,98 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
-//Constantes
 #define TAILLE 10
-#define NBI 10
-
-//prototypes
-//void init_tabEntier(int n_tabEntier[], int n_taille);
-//ou
-void init_tabEntier(int *pn_tabEntier, int n_taille);
-
-char *get_pchar(char c_tabCar[],int n_taille);
 
 
+//Types
 
-//Pointeur et référence
+/*
+
+Algo
+
+Type tPoint = Enregistrement
+
+    n_x : Entier
+    n_y : Entier
+
+FinEnregistrement
+
+
+VAR
+
+mon_Point : tPoint
+
+
+DEBUT
+
+mon_Point.x=0
+mon_Point.y=0
+
+FIN
+
+*/
+
+
+//En C
+//un point dans un plan
+typedef struct tPoint{
+
+    int n_x;
+    int n_y;
+
+}tPoint;
+
+
 
 int main()
 {
 
-    //Les pointeurs et réference sur entier
-    int n_Entier=10;
+ tPoint mon_Point={0,0};
 
-    int *pn_Entier=NULL;
+ //la valeur
+ //mon_Point.n_x=0;
+ //mon_Point.n_y=0;
 
-    pn_Entier=&n_Entier;
+ tPoint *pMonPoint=NULL;
 
-    int n_Entier2 =100;
+ pMonPoint=&mon_Point;
 
-    pn_Entier =&n_Entier2;
-
-    pn_Entier=NULL;
-    //Ne jamais utiliser un pointeur dont la réf est NULL
-
-    pn_Entier=&n_Entier2;
-
-    printf("la val pointer par pn_Entier : %d\n",*pn_Entier);
-
-    *pn_Entier=5;
-
-    printf("la val pointer par pn_Entier : %d\n",n_Entier2);
+ //pointeur de structure
+ pMonPoint->n_x=10;
+ pMonPoint->n_y=10;
 
 
-    //Pointeurs et les tableaux
+ //formalisme pointeur
+ (*pMonPoint).n_x=20;
+ (*pMonPoint).n_y=20;
 
-    char c_tab[TAILLE]={'a','e','i','o','u','y'};
+ //Tableaux
 
-    char *pc_char=NULL;
+ tPoint tab_point[TAILLE];
 
-    pc_char=c_tab;
+ int n_i=0;
+ int n_j=0;
 
-    int n_i=0;
-
-    for(n_i=0;n_i<strlen(pc_char);n_i++){
-
-        printf("%c",pc_char[n_i]);
-
-    }
-
-    //incrémentation de pointeur de caractere, j'incremente l'espace d'adressage en octet
-    pc_char++;
+ for(n_i=0;n_i<TAILLE;n_i++){
+    tab_point[n_i].n_x=0;
+    tab_point[n_i].n_y=0;
+ }
 
 
-    //Meme manipulation mais avec des entiers
-
-    int n_tabEntier[TAILLE]={0};
-
-    int *pn_Entier3 =NULL;
-
-    pn_Entier3=n_tabEntier;
+ tPoint Matirce_point[TAILLE][TAILLE];
 
 
-    for(n_i=0;n_i<TAILLE;n_i++){
+ for(n_i=0;n_i<TAILLE;n_i++){
+        for(n_j=0;n_j<TAILLE;n_j++){
+             Matirce_point[n_i][n_j].n_x=0;
+             Matirce_point[n_i][n_j].n_y=0;
+        }
 
-        pn_Entier3[n_i]=n_i;
-
-    }
-
-    //exemple d'incrémentation d'un pointeur
-    for(n_i=0;n_i<TAILLE;n_i++){
-
-        printf("\n%d",*pn_Entier3);
-
-        //formalisme pointeur
-        //pn_Entier3++;
-
-        *(pn_Entier3)++;
-
-    }
-
-    pn_Entier3=n_tabEntier;
-
-    for(n_i=0;n_i<TAILLE;n_i++){
-
-        //pn_Entier3[n_i]++;
-        //formalisme pointeur pour incrémenter la val
-        (*pn_Entier3)++;
-
-        printf("\n\n%d",pn_Entier3[n_i]);
-
-        *(pn_Entier3)++;
-
-    }
-
-
-    for(n_i=0;n_i<TAILLE;n_i++){
-
-        //formalisme du pointeur pour l'affectation
-        //n_tabEntier[n_i]=8;
-        *(n_tabEntier+n_i)=8;
-
-    }
+ }
 
 
 
-    int n_tabEntier2Dim[TAILLE][TAILLE];
-    int n_j=0;
-
-    for(n_i=0;n_i<TAILLE;n_i++){
-            for(n_j=0;n_j<TAILLE;n_j++){
-
-                //formalisme du pointeur pour l'affectation tableaux 2 dim
-                //n_tabEntier[n_i][n_j]=8;
-                *(*(n_tabEntier2Dim+n_i)+n_j)=8;
-
-            }
-
-
-    }
-
-    init_tabEntier(n_tabEntier,TAILLE);
-
-
-
-    char *pc_char2=get_pchar(c_tab,strlen(c_tab));
-    char c_char=(get_pchar(c_tab,strlen(c_tab)))[0];
+ tPoint tab_point2[TAILLE]={{0,0},{10,5}};
 
 
 
@@ -145,38 +101,7 @@ int main()
 }
 
 
-//void init_tabEntier(int n_tabEntier[], int n_taille)
-//ou
-void init_tabEntier(int *pn_tabEntier, int n_taille){
 
-  int n_i=0;
-
-  for(n_i=0;n_i<n_taille;n_i++){
-
-    pn_tabEntier[n_i]=0;
-
-  }
-
-
-}
-
-
-//fonction qui retourne un pointeur de caractere
-
-char *get_pchar(char c_tabCar[],int n_taille){
-
-  int n_i=0;
-
-  for(n_i=0;n_i<n_taille;n_i++){
-
-    c_tabCar[n_i]='z';
-
-  }
-
-  return c_tabCar;
-
-
-}
 
 
 
