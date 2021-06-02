@@ -44,56 +44,85 @@ typedef struct tPoint{
 }tPoint;
 
 
+typedef struct tPixel{
+
+    char str_coul[TAILLE];
+    tPoint pt;
+
+}tPixel;
+
+//Les enumerations
+
+typedef enum Rgb{rouge=1,vert,bleu}Rgb;
+
+
+
+typedef struct tPixel2{
+
+    Rgb couleur;
+    tPoint pt;
+
+}tPixel2;
+
+typedef enum booleen{faux,vrai}boolen;
+
+
+
+//Mutateurs et ascesseur
+
+int getX(tPoint pt);
+int getY(tPoint pt);
+
+void setX(tPoint *pt, int new_nx);
+void setY(tPoint *pt, int new_ny);
+
+void setPoint(tPoint *pt,int new_nx,int new_ny);
+
 
 int main()
 {
+    tPixel pix={"rouge",{10,0}};
 
- tPoint mon_Point={0,0};
+    strcpy(pix.str_coul,"orange");
+    pix.pt.n_x=20;
+    pix.pt.n_y=15;
 
- //la valeur
- //mon_Point.n_x=0;
- //mon_Point.n_y=0;
+    tPixel *p_pixel=NULL;
+    p_pixel=&pix;
 
- tPoint *pMonPoint=NULL;
-
- pMonPoint=&mon_Point;
-
- //pointeur de structure
- pMonPoint->n_x=10;
- pMonPoint->n_y=10;
-
-
- //formalisme pointeur
- (*pMonPoint).n_x=20;
- (*pMonPoint).n_y=20;
-
- //Tableaux
-
- tPoint tab_point[TAILLE];
-
- int n_i=0;
- int n_j=0;
-
- for(n_i=0;n_i<TAILLE;n_i++){
-    tab_point[n_i].n_x=0;
-    tab_point[n_i].n_y=0;
- }
-
-
- tPoint Matirce_point[TAILLE][TAILLE];
-
-
- for(n_i=0;n_i<TAILLE;n_i++){
-        for(n_j=0;n_j<TAILLE;n_j++){
-             Matirce_point[n_i][n_j].n_x=0;
-             Matirce_point[n_i][n_j].n_y=0;
-        }
-
- }
+    strcpy(p_pixel->str_coul,"vert");
+    p_pixel->pt.n_x=0;
+    p_pixel->pt.n_y=0;
 
 
 
- tPoint tab_point2[TAILLE]={{0,0},{10,5}};
+    tPixel2 pix2={vert,{0,0}};
+    /* tPixel2 pix2;
+     pix2.couleur=bleu;
+     pix2.pt.n_x=0;
+     pix2.pt.n_y=0;*/
+
+     boolen test_couleur=faux;
+
+    if(pix2.couleur==bleu){
+
+        test_couleur=vrai;
+
+    }else{
+
+        test_couleur=faux;
+    }
+
+    printf("X : %d\n",getX(pix.pt));
+    printf("Y : %d\n",getY(pix.pt));
+
+    setX(&pix.pt,5);
+    setY(&pix.pt,5);
+
+    printf("X : %d\n",getX(pix.pt));
+    printf("Y : %d\n",getY(pix.pt));
+
+    setPoint(&pix.pt,10,8);
 
 
 
@@ -102,7 +131,32 @@ int main()
 
 
 
+int getX(tPoint pt){
+
+    return pt.n_x;
+}
+
+int getY(tPoint pt){
+
+    return pt.n_y;
+}
 
 
+void setX(tPoint *pt, int new_nx){
+
+    pt->n_x=new_nx;
+
+}
+void setY(tPoint *pt, int new_ny){
+
+    pt->n_y=new_ny;
+}
+
+void setPoint(tPoint *pt,int new_nx,int new_ny){
+
+    pt->n_x=new_nx;
+    pt->n_y=new_ny;
+
+}
 
 
