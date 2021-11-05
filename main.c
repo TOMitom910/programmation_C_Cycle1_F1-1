@@ -2,127 +2,37 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAILLE 10
+//Pointeurs_génériques
 
+void raz(void *ptr, int n);
 
-//Types
-
-/*
-
-Algo
-
-Type tPoint = Enregistrement
-
-    n_x : Entier
-    n_y : Entier
-
-FinEnregistrement
-
-
-VAR
-
-mon_Point : tPoint
-
-
-DEBUT
-
-mon_Point.x=0
-mon_Point.y=0
-
-FIN
-
-*/
-
-
-//En C
-//un point dans un plan
-typedef struct tPoint{
-
-    int n_x;
-    int n_y;
-
-}tPoint;
-
-
-typedef struct tPixel{
-
-    char str_coul[TAILLE];
-    tPoint pt;
-
-}tPixel;
-
-//Les enumerations
-
-typedef enum Rgb{rouge=1,vert,bleu}Rgb;
-
-
-
-typedef struct tPixel2{
-
-    Rgb couleur;
-    tPoint pt;
-
-}tPixel2;
-
-typedef enum booleen{faux,vrai}boolen;
-
-
-
-//Mutateurs et ascesseur
-
-int getX(tPoint pt);
-int getY(tPoint pt);
-
-void setX(tPoint *pt, int new_nx);
-void setY(tPoint *pt, int new_ny);
-
-void setPoint(tPoint *pt,int new_nx,int new_ny);
+void echange(void *val1, void * val2, size_t size);
+void echange2(void *val1, void * val2,size_t size);
 
 
 int main()
 {
-    tPixel pix={"rouge",{10,0}};
 
-    strcpy(pix.str_coul,"orange");
-    pix.pt.n_x=20;
-    pix.pt.n_y=15;
+ double dbl_reel=10.9;
 
-    tPixel *p_pixel=NULL;
-    p_pixel=&pix;
+ int tab_entier[10]={10};
 
-    strcpy(p_pixel->str_coul,"vert");
-    p_pixel->pt.n_x=0;
-    p_pixel->pt.n_y=0;
+ //raz(&dbl_reel,sizeof(dbl_reel));
 
 
+ int n_a=9;
+ int n_b=50;
 
-    tPixel2 pix2={vert,{0,0}};
-    /* tPixel2 pix2;
-     pix2.couleur=bleu;
-     pix2.pt.n_x=0;
-     pix2.pt.n_y=0;*/
+ echange(&n_a,&n_b,sizeof(int));
 
-     boolen test_couleur=faux;
+ float flt_fa=0.2f;
+ float flt_fb=2.8f;
 
-    if(pix2.couleur==bleu){
 
-        test_couleur=vrai;
+ //echange(&flt_fa,&flt_fb,sizeof(float));
+ echange2(&flt_fa,&flt_fb,sizeof(float));
 
-    }else{
 
-        test_couleur=faux;
-    }
-
-    printf("X : %d\n",getX(pix.pt));
-    printf("Y : %d\n",getY(pix.pt));
-
-    setX(&pix.pt,5);
-    setY(&pix.pt,5);
-
-    printf("X : %d\n",getX(pix.pt));
-    printf("Y : %d\n",getY(pix.pt));
-
-    setPoint(&pix.pt,10,8);
 
 
 
@@ -130,33 +40,62 @@ int main()
 }
 
 
+void raz(void *ptr, int n){
 
-int getX(tPoint pt){
+ int n_i=0;
 
-    return pt.n_x;
-}
+ char *adr=ptr;
 
-int getY(tPoint pt){
-
-    return pt.n_y;
-}
-
-
-void setX(tPoint *pt, int new_nx){
-
-    pt->n_x=new_nx;
-
-}
-void setY(tPoint *pt, int new_ny){
-
-    pt->n_y=new_ny;
-}
-
-void setPoint(tPoint *pt,int new_nx,int new_ny){
-
-    pt->n_x=new_nx;
-    pt->n_y=new_ny;
+ for(n_i=0;n_i<n;n_i++){
+    *adr=0;
+    *adr++; //adr++
+ }
 
 }
 
+
+void echange(void *val1, void * val2,size_t size){
+
+
+    void *temp=malloc(size);
+
+    if(temp==null)
+        return;
+
+    char *dest=temp;
+    char *s=val1;
+
+
+    int i=0;
+    for(i=0;i<size;i++)
+        *dest++ = *s++;
+
+    s=val2;
+
+    dest=val1;
+    for(i=0;i<size;i++)
+        *dest++ = *s++;
+
+    s=temp;
+    dest=val2;
+    for(i=0;i<size;i++)
+        *dest++ = *s++;
+
+    free(temp);
+
+
+}
+
+void echange2(void *val1, void * val2,size_t size){
+
+    void *temp=malloc(size);
+    if(temp==NULL)
+            return;
+    memcpy(temp,val1,size);
+    memcpy(val1,val2,size);
+    memcpy(val2,temp,size);
+
+    free(temp);
+
+}
 
