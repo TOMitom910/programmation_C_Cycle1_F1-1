@@ -4,13 +4,6 @@
 
 
 //Pointeurs de fcts
-
-
-
-
-void somme (int n_a, int n_b, int *ptrRes);
-
-
 typedef struct tHero{
 
     int n_id;
@@ -20,18 +13,33 @@ typedef struct tHero{
 }tHero;
 
 
+
+
+int saisie(char cSaisie[255],int nTaille);
 void initHero(tHero *ptr_myHero);
+void saveHero(tHero *myHero);
+void loadHero(tHero *myHero);
+
+
+
 
 int main()
 {
 
-    tHero myHero;
+
+
+    //Fichier txt (sprintf)
+
+   /* tHero myHero;
 
     initHero(&myHero);
 
+
     FILE * pFile=NULL;
 
-    pFile = fopen ("myfile.txt","a");
+   //Ecriture
+
+   pFile = fopen ("myfile.txt","a");
 
     if(pFile==NULL){
         perror("Erreur ouverture/ecriture fichier\n");
@@ -39,34 +47,21 @@ int main()
         exit(1);
     }
 
-    /*fprintf (pFile, "Id : %d\n",myHero.n_id);
-    fprintf (pFile, "Name : %s\n",myHero.str_nom);
-    fprintf (pFile, "Vie : %d\n",myHero.n_ptVie);*/
+
 
     char strTemp[255];
 
-    strcpy(strTemp,myHero.str_nom);
 
+    int n_temp=sprintf (strTemp, "Id : %d; Nom : %s; Vie : %d\n", myHero.n_id, myHero.str_nom, myHero.n_ptVie);
 
-    fprintf (pFile, "%d\n",myHero.n_id);
     fputs(strTemp,pFile);
-    fputc('\n',pFile);
-    fprintf (pFile, "%d\n",myHero.n_ptVie);
-    fputc('\n',pFile);
-
-
-
-
-
 
 
     fclose(pFile);
 
-    int n_Id=0;
 
-    int n_ptVie=0;
 
-    char strNom[255];
+    //Lecture
 
     pFile = fopen ("myfile.txt","r");
 
@@ -77,85 +72,56 @@ int main()
     }
 
     rewind (pFile);
-    /*fscanf (pFile, "Id : %d\n", &n_Id);
-    fscanf (pFile, "Name : %s\n", strNom);
-    fscanf (pFile, "Vie : %d\n", &n_ptVie);*/
 
-    int n_cpt=0;
+
+
+   do{
+
+        fgets(strTemp,255,pFile);
+        printf("%s",strTemp);
+        strcpy(strTemp,"\0");
+
+    }while(!feof(pFile));
+
+
+    char c;
 
     while(!feof(pFile)){
-
-      fgets(strNom,255,pFile);
-      n_cpt++;
-      fputs(strNom,stdout);
-
-
+      c=fgetc(pFile);
+      fputc(c,stdout);
     }
 
-
-
+    while (fgets(strTemp, 255, pFile) != NULL) // On lit les chaines de caracteres tant que la reference est differente de NULL
+    {
+            printf("%s", strTemp); // On affiche la chaine que nous venons de lire
+    }
 
 
     fclose(pFile);
 
+    free(myHero.str_nom);*/
+
+
+    //Fichier binaire
+    tHero *myHero;
+
+    myHero=malloc(sizeof(tHero));
+
+    int size=sizeof(myHero);
+
+
+
+    saveHero(myHero);
+    loadHero(myHero);
+
+    free(myHero);
 
 
 
 
 
- free(myHero.str_nom);
-  /*  int n_a =10;
-    int n_b=30;
 
-    int n_Res=0;
-    int *n_ptra=&n_a;
-
-    *n_ptra=20;//n_a=20;
-
-    somme (n_a, n_b,n_ptra);
-
-    //Malloc
-
-    int *ptr_val=(int*)malloc(sizeof(int));
-
-    *ptr_val=255;
-
-
-    int *ptr_tabInt=(int*)malloc(10*sizeof(int));
-
-    int n_i=0;
-
-    if (ptr_tabInt!=NULL){
-
-
-        for(n_i=0;n_i<10; n_i++){
-
-        //Formalisme Tableaux
-        //ptr_tabInt[n_i]=0;
-
-        //Formalisme pointeurs
-        *(ptr_tabInt+n_i)=0;
-
-        }
-    }
-
-
-
-
-    if(ptr_val!=NULL)
-        free(ptr_val);
-
-    if(ptr_tabInt!=NULL)
-        free(ptr_tabInt);
-
-
-*/
-
-
-
-
-
- return 0;
+    return 0;
 }
 
 
@@ -178,6 +144,113 @@ void initHero(tHero *ptr_myHero){
     }
 
     ptr_myHero->n_ptVie=100;
+
+}
+
+
+
+void saveHero(tHero *myHero){
+
+    FILE * pFile;
+    int i;
+
+    myHero->str_nom=(char*)malloc(255*sizeof(char));
+
+
+    myHero->str_nom="Lehmann";
+    myHero->n_ptVie=100;
+
+    //Ecriture fichier binaire
+    pFile = fopen ("BinaryFile.bin", "ab");
+
+
+    for(i=0;i<3;i++){
+        myHero->n_id=i+1;
+        fwrite(myHero,sizeof(tHero),sizeof(myHero),pFile);
+    }
+
+
+
+    fclose (pFile);
+
+
+}
+
+
+void loadHero(tHero *myHero){
+
+     FILE * pFile;
+
+     long lSize;
+     tHero * buffer;
+     size_t result;
+
+
+     pFile = fopen ( "BinaryFile.bin" , "rb" );
+
+     if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
+
+        // obtain file size:
+       fseek (pFile , sizeof(tHero) , SEEK_END);//position of cursor in file <At EOF>
+       lSize = ftell (pFile); //Get current position in stream (octets)
+       rewind (pFile);//Set position of stream to the beginning (function )
+
+        // allocate memory to contain the whole file:
+
+        buffer = malloc(lSize);
+        //buffer=malloc(sizeof(cid)*lSize)
+
+        if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+        //Lecture 1 stucture fichier binaire
+        //result = fread (buffer,1,lSize,pFile);
+
+        // copy the file into the buffer:
+
+        while((result=fread(buffer, sizeof(tHero), sizeof(myHero), pFile))) {
+
+               //result=
+               if (result != sizeof(myHero)) {fputs ("Reading error",stderr); exit (3);}
+
+               printf("%d\n",buffer->n_id);
+               printf("%s\n",buffer->str_nom);
+               printf("%d\n",buffer->n_ptVie);
+
+               printf("\n");
+
+
+        }
+
+
+  // terminate
+    fclose (pFile);
+
+    free (buffer);
+
+
+
+
+
+}
+
+int saisie(char cSaisie[100],int nTaille){
+
+    char *positionEntree = NULL;
+
+
+    if(fgets(cSaisie,nTaille,stdin)!=NULL){
+
+        positionEntree=strchr(cSaisie,'\n');
+
+        positionEntree!=NULL?*positionEntree='\0':fflush(stdin);
+
+        return 1;
+    }else{
+
+        fflush(stdin);
+        return 0;
+
+    }
 
 
 }
